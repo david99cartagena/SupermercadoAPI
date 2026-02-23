@@ -1,0 +1,70 @@
+## Archivos y carpetas generadas por compilación
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Archivos del entorno de Visual Studio
+.vs/
+.vscode/
+
+## Archivos de caché del proyecto
+*.dbmdl
+*.bak
+*.cache
+*.log
+*.pdb
+*.mdb
+*.ds_store
+*.sln.ide
+
+## Archivos de configuración de herramientas de diseño
+*.DotSettings.user
+
+## Archivos generados por Rider
+.idea/
+
+## Carpetas y archivos de NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+project.lock.json
+project.fragment.lock.json
+*.nuget.props
+*.nuget.targets
+*.g.props
+*.g.targets
+
+## Archivos generados por Razor
+*.g.cs
+*.g.i.cs
+*.rjsm*.json
+*.dswa*.json
+
+## Archivos de configuración de publicación
+Properties/PublishProfiles/
+
+## Otros
+TestResult*/
+*.vsidx
+*.vscode/
+
+## Archivos estáticos generados
+wwwroot/staticwebassets/
+
+## Archivos específicos del entorno local
+appsettings.*.local.json
+
+# MacOS
+.DS_Store
+
+# Linux
+*~
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
