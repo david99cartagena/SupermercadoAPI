@@ -77,8 +77,7 @@ namespace SupermercadoAPI.Services
                         {
                             ProductoId = item.ProductoId,
                             Cantidad = item.Cantidad,
-                            ValorUnitario =
-                            producto.ValorUnitario,
+                            ValorUnitario = producto.ValorUnitario,
                             Subtotal = subtotal
                         });
                     }
@@ -106,35 +105,63 @@ namespace SupermercadoAPI.Services
                 throw new Exception(ex.Message);
             }
         }
+        
+        public async Task<List<object>> ListarClientes()
+        {
+            return await _context.Clientes
+                .Select(c => new { c.Id, c.Nombre })
+                .ToListAsync<object>();
+        }
+
+        public async Task<List<object>> ListarUsuarios()
+        {
+            return await _context.Usuarios
+                .Select(u => new { u.Id, u.Nombre })
+                .ToListAsync<object>();
+        }
+
+        public async Task<List<object>> ListarProductos()
+        {
+            return await _context.Productos
+                .Select(p => new { p.Id, p.NombreProducto, p.ValorUnitario, p.UnidadesDisponibles })
+                .ToListAsync<object>();
+        }
 
         public async Task<object> DetalleVenta(int id)
         {
-
-            if (id <= 0)
-                throw new Exception("Id inválido");
-
-            var venta = await _context.Ventas
-            .Where(v => v.Id == id)
-            .Select(v => new
+            try
             {
-                VentaId = v.Id,
-                Cliente = v.Cliente.Nombre,
-                Usuario = v.Usuario.Nombre,
-                Fecha = v.FechaVenta,
-                Total = v.TotalVenta,
-                Productos = v.Detalles.Select(d => new {
-                    Producto =d.Producto.NombreProducto,
-                    Cantidad = d.Cantidad,
-                    Precio = d.ValorUnitario,
-                    Subtotal = d.Subtotal
+                if (id <= 0)
+                    throw new Exception("Id inválido");
+
+                var venta = await _context.Ventas
+                .Where(v => v.Id == id)
+                .Select(v => new
+                {
+                    VentaId = v.Id,
+                    Cliente = v.Cliente.Nombre,
+                    Usuario = v.Usuario.Nombre,
+                    Fecha = v.FechaVenta,
+                    Total = v.TotalVenta,
+                    Productos = v.Detalles.Select(d => new
+                    {
+                        Producto = d.Producto.NombreProducto,
+                        Cantidad = d.Cantidad,
+                        Precio = d.ValorUnitario,
+                        Subtotal = d.Subtotal
+                    })
                 })
-            })
-            .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync();
 
-            if (venta == null)
-                throw new Exception("Venta no existe");
+                if (venta == null)
+                    throw new Exception("Venta no existe");
 
-            return venta;
+                return venta;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

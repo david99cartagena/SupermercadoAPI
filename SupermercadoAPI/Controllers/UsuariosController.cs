@@ -199,4 +199,20 @@ public class UsuariosController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Eliminar(int id)
+    {
+        var usuario = await _context.Usuarios.FindAsync(id);
+
+        if (usuario == null)
+            return NotFound("Usuario no existe");
+
+        _context.Usuarios.Remove(usuario);
+
+        await _context.SaveChangesAsync();
+
+        return Ok("Usuario eliminado");
+    }
 }
+

@@ -1,17 +1,28 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SupermercadoAPI.Data;
 using SupermercadoAPI.Services;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// CORS Angular
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", policy =>
+    {
+        policy.WithOrigins()
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
+});
+
 // Controllers
 builder.Services.AddControllers()
-
 .AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler =
-    System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    ReferenceHandler.IgnoreCycles;
 });
 
 // Services
@@ -24,7 +35,9 @@ builder.Services.AddSwaggerGen();
 
 // Database
 builder.Services.AddDbContext<SupermercadoContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+options.UseSqlServer(
+builder.Configuration.GetConnectionString("DefaultConnection")
+));
 
 var app = builder.Build();
 
@@ -35,7 +48,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+
+app.UseCors("AllowAngularApp");
+
 app.UseAuthorization();
+
 app.MapControllers();
+
 app.Run();
