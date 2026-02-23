@@ -5,7 +5,7 @@ using SupermercadoAPI.DTOs;
 using SupermercadoAPI.Models;
 
 [ApiController]
-[Route("api/clientes")]
+[Route("api/[controller]")]
 public class ClientesController : ControllerBase
 {
     private readonly SupermercadoContext _context;
@@ -153,6 +153,7 @@ public class ClientesController : ControllerBase
                     x.Id,
                     x.Nombre,
                     x.Apellido,
+                    x.Identificacion,
                     x.Telefono
                 })
                 .ToListAsync();

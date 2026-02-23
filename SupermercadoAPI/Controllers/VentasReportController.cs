@@ -2,7 +2,7 @@
 using SupermercadoAPI.Services;
 
 [ApiController]
-[Route("api/reportes")]
+[Route("api/[controller]")]
 public class VentasReportController : ControllerBase
 {
     private readonly VentasReportService _service;

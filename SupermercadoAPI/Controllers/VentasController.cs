@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SupermercadoAPI.Data;
 using SupermercadoAPI.DTOs;
 using SupermercadoAPI.Services;
 
 [ApiController]
-[Route("api/ventas")]
+[Route("api/[controller]")]
 public class VentasController : ControllerBase
 {
     private readonly VentaService _service;
+
     public VentasController(VentaService service)
     {
         _service = service;
@@ -30,6 +33,21 @@ public class VentasController : ControllerBase
         {
             return StatusCode(400, ex.Message);
         }
+    }
+    
+    // Datos Venta
+    [HttpGet("datos-venta")]
+    public async Task<IActionResult> DatosVenta()
+    {
+        var clientes = await _service.ListarClientes();
+        var usuarios = await _service.ListarUsuarios();
+        var productos = await _service.ListarProductos();
+
+        return Ok(new { 
+            Clientes = clientes, 
+            Usuarios = usuarios, 
+            Productos = productos 
+        });
     }
 
     // Detalle venta

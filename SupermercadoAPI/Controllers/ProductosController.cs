@@ -5,7 +5,7 @@ using SupermercadoAPI.DTOs;
 using SupermercadoAPI.Models;
 
 [ApiController]
-[Route("api/productos")]
+[Route("api/[controller]")]
 public class ProductosController : ControllerBase
 {
     private readonly SupermercadoContext _context;
